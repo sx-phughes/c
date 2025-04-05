@@ -1,3 +1,10 @@
+/*
+ * Detab: take input lines and replace tabs with the number of spaces to the
+ * next tabstop. Using underscores _ to visualize the effect.
+ *
+ * Version 1: Initial attempt
+ */
+
 #include <stdio.h>
 #define MAXLINE     1000
 #define TABSTOP     4 
@@ -27,9 +34,6 @@ int main ()
 int getLine(char s[], int lim)
 {
     int c, i, tab;
-    int spaces = 0;
-    int num_tabs, num_spaces;
-    
     tab = TABSTOP;
     for (i = 0; i < lim - 1 && (c = getchar()) != '\n' && c != EOF; ++i) {
         if (tab <= 0) {
@@ -37,15 +41,13 @@ int getLine(char s[], int lim)
         }
 
         if (c == '\t') {
-            spaces += tab;
-            tab = 0;
-        } else if (c == ' ') {
-            spaces += 1;
-        } else if (spaces != 0 && c != '\t' && c != ' ') {
-            num_tabs = spaces / TABSTOP;        /* int division drops decimal */
-            num_spaces = spaces - num_tabs * TABSTOP; 
+            while (tab > 0) {
+                s[i] = '_';
+                --tab;
+                ++i;
+            }
+            --i;
         } else {
-            spaces = 0;
             s[i] = c;
         }
 

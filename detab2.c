@@ -1,9 +1,17 @@
+/*
+ * Detab program: take input lines and replace tabs with space to the next
+ * tabstop. Using underscores _ to visualize the effect.
+ *
+ * Version 2 - implemented a function to execute when a \t is encountered
+ */
+
 #include <stdio.h>
 #define MAXLINE     1000
 #define TABSTOP     4 
 
 int getLine(char s[], int lim);
 void copy(char a[], char b[], int start);
+int detab(char s[], int i, int tab);
 
 int main ()
 {
@@ -34,12 +42,7 @@ int getLine(char s[], int lim)
         }
 
         if (c == '\t') {
-            while (tab > 0) {
-                s[i] = '_';
-                --tab;
-                ++i;
-            }
-            --i;
+            i = detab(s, i, tab);
         } else {
             s[i] = c;
         }
@@ -51,6 +54,17 @@ int getLine(char s[], int lim)
         ++i;
     }
     s[i] = '\0';
+
+    return i;
+}
+int detab(char s[], int i, int tab)
+{
+    while (tab > 0) {
+        s[i] = '_';
+        --tab;
+        ++i;
+    }
+    --i;
 
     return i;
 }
