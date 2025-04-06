@@ -4,6 +4,8 @@
 
 int getLine(char line[], int maxline);
 void copy(char to[], char from[]);
+int foldLine(char s[], int i);
+int isWhitespace(char c);
 
 /* Foldlines: fold lines at given column or at last white space */
 
